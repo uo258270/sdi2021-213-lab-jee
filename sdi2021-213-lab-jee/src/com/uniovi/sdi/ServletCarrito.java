@@ -35,7 +35,7 @@ public class ServletCarrito extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		HashMap<String, Integer> carrito = (HashMap<String, Integer>) request.getSession().getAttribute("carrito");
-        //No hay carrito, creamos uno y lo insertamos en sesión
+		//No hay carrito, creamos uno y lo insertamos en sesión
 		if (carrito == null) {
 			carrito = new HashMap<String, Integer>();
 			request.getSession().setAttribute("carrito", carrito);
@@ -44,29 +44,24 @@ public class ServletCarrito extends HttpServlet {
 		if (producto != null) {
 			insertarEnCarrito(carrito, producto);
 		}
-		response.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		out.println("<HTML>");
-		out.println("<HEAD><TITLE>Tienda	SDI:	carrito</TITLE></HEAD>");
-		out.println("<BODY>");
-		out.println(carritoEnHTML(carrito) + "<br>");
-		out.println("<a	href=\"index.jsp\">Volver</a></BODY></HTML>");
+		//Retornar la vista con parámetro "carrito"
+		request.setAttribute("paresCarrito", carrito);
+		getServletContext().getRequestDispatcher("/vista-carrito.jsp").forward(request, response);
 	}
 
 	private String carritoEnHTML(HashMap<String, Integer> carrito) {
-		String carritoEnHTML="";
-		
-		for (String key:carrito.keySet())
-			carritoEnHTML+="<p>["+key+"], "+carrito.get(key)+"unidades</p>";
+		String carritoEnHTML = "";
+
+		for (String key : carrito.keySet())
+			carritoEnHTML += "<p>[" + key + "], " + carrito.get(key) + "unidades</p>";
 		return carritoEnHTML;
 	}
 
 	private void insertarEnCarrito(HashMap<String, Integer> carrito, String clavePproducto) {
-		if(carrito.get(clavePproducto)==null)
+		if (carrito.get(clavePproducto) == null)
 			carrito.put(clavePproducto, Integer.valueOf(1));
 		else {
-			int numeroDeArticulos=(Integer)carrito.get(clavePproducto).intValue();
+			int numeroDeArticulos = (Integer) carrito.get(clavePproducto).intValue();
 			carrito.put(clavePproducto, Integer.valueOf(numeroDeArticulos));
 		}
 	}
@@ -80,7 +75,5 @@ public class ServletCarrito extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-	
-	
 
 }

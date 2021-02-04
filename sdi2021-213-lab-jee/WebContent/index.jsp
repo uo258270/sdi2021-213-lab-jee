@@ -50,7 +50,7 @@
 				<div>
 					<img src="<c:out value="${producto.imagen"}"/>" 
 					<div>><c:out value="${producto.nombre}"/></div>
-					<a href="incluirEnCarrito?producto==<c:out	value="${producto.nombre}"/>"
+					<a href="incluirEnCarrito?producto==<c:out	value="${producto.nombre}"/>
 						class="btn	btndefault"><c:out	value="${producto.precio}"/> €
 					</a>
 				</div>
