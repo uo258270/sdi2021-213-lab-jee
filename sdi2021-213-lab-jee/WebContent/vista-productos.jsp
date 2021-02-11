@@ -21,9 +21,10 @@
 	<div class="container" id="contenedor-principal">
 		<h2>Productos</h2>
 		<ul>
-			<c:forEach var="par" items="${productosTienda}">
+			<c:forEach var="producto" items="${productosTienda}">
 				<tr>
-					<li>${par.key}</li>
+					<li>${producto.nombre}</li>
+					<li>${producto.precio}</li>
 				</tr>
 			</c:forEach>
 		</ul>
