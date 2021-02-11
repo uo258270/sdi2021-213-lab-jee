@@ -23,7 +23,7 @@
 	if (nombre != null && password != null && nombre.equals("admin") && password.equals("admin")) {
 		//Credencial válido, lo guardo en sesión
 		request.getSession().setAttribute("usuario", "admin");
-		response.sendRedirect("admin.jsp");
+		response.sendRedirect("index.jsp");
 	} else {
 		//Credencial invalido
 		request.getSession().setAttribute("usuario", null);
