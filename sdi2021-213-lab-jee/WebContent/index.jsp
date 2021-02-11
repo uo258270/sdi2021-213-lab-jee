@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html;	charset=utf-8"
 	pageEncoding="utf-8"%>
-	<%@ taglib prefix="c"	uri="http://java.sun.com/jsp/jstl/core"	%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@	page language="java" import="com.uniovi.sdi.*	,	java.util.List"%>
 <!DOCTYPE html	PUBLIC "-//W3C//DTD	HTML	4.01	Transitional//EN"	
 "http://www.w3.org/TR/html4/loose.dtd">
@@ -19,7 +19,8 @@
 <body>
 
 
-	<jsp:useBean id="contador" class="com.uniovi.sdi.Contador" scope="application" />
+	<jsp:useBean id="contador" class="com.uniovi.sdi.Contador"
+		scope="application" />
 	<jsp:setProperty name="contador" property="incremento" value="1" />
 
 	<!-- Barra de navegación superior -->
@@ -29,6 +30,7 @@
 			<li><a href="incluirEnCarrito">Carrito</a></li>
 			<li><a href="login.jsp">Login</a></li>
 			<li><a href="admin.jsp">Administrar Productos</a></li>
+			<li><a href="productos">Productos</a></li>
 		</ul>
 		<div class="nav navbar-right">
 			<jsp:getProperty name="contador" property="total" />
@@ -43,18 +45,23 @@
 		<h2>Productos</h2>
 		<div class="row	">
 
-			<jsp:useBean id="productosService" class="com.uniovi.sdi.ProductosService"/>
-			<c:forEach var="producto" begin="0" items="${productosService.productos}">
-			
-			<div class="col-xs-12	col-sm-6	col-md-4	col-lg-3">
-				<div>
-					<img src="<c:out value="${producto.imagen"}"/>" 
-					<div>><c:out value="${producto.nombre}"/></div>
-					<a href="incluirEnCarrito?producto==<c:out	value="${producto.nombre}"/>
-						class="btn	btndefault"><c:out	value="${producto.precio}"/> €
-					</a>
+			<jsp:useBean id="productosService"
+				class="com.uniovi.sdi.ProductosService" />
+			<c:forEach var="producto" begin="0"
+				items="${productosService.productos}">
+				<div class="col-xs-12	col-sm-6	col-md-4	col-lg-3">
+					<div>
+						<img src="<c:out	value="${producto.imagen}"/>" />
+						<div>
+							<c:out value="${producto.nombre}" />
+						</div>
+						<a
+							href="incluirEnCarrito?producto=<c:out	value="${producto.nombre}"/>"
+							class="btn	btn-default"> <c:out value="${producto.precio}" />
+							€
+						</a>
+					</div>
 				</div>
-			</div>
 			</c:forEach>
 		</div>
 	</div>
