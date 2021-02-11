@@ -60,6 +60,7 @@
 							class="btn	btn-default"> <c:out value="${producto.precio}" />
 							€
 						</a>
+						
 					</div>
 				</div>
 			</c:forEach>

@@ -23,6 +23,8 @@
 			<c:forEach var="par" items="${paresCarrito}">
 				<tr>
 					<li>${par.key}- ${par.value}</li>
+					<a href="borrarDelCarrito?producto=<c:out value="${par.key}"/>"
+						class="btn btn-default"> Eliminar </a>
 				</tr>
 			</c:forEach>
 		</ul>
