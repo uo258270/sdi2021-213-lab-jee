@@ -8,7 +8,7 @@ public class Mark {
 	@Id
 	@GeneratedValue
 	private Long id;
-	private String email;
+	private String description;
 	private Double score;
 
 	/**
@@ -29,14 +29,14 @@ public class Mark {
 	 * @return the email
 	 */
 	public String getEmail() {
-		return email;
+		return description;
 	}
 
 	/**
 	 * @param email the email to set
 	 */
 	public void setEmail(String email) {
-		this.email = email;
+		this.description = email;
 	}
 
 	/**
@@ -56,7 +56,7 @@ public class Mark {
 	public Mark(Long id, String email, Double score) {
 		super();
 		this.id = id;
-		this.email = email;
+		this.description = email;
 		this.score = score;
 	}
 
@@ -65,7 +65,7 @@ public class Mark {
 
 	@Override
 	public String toString() {
-		return "Mark [id=" + id + ", email=" + email + ", score=" + score + "]";
+		return "Mark [id=" + id + ", email=" + description + ", score=" + score + "]";
 	}
 
 }
