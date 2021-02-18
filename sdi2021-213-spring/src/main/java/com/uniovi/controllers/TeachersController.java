@@ -1,6 +1,7 @@
 package com.uniovi.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,11 @@ public class TeachersController {
 		teachersService.addTeacher(teacher);
 		return "Ok";
 	}
+	
+	@RequestMapping(value = "/teacher/add")
+	public String getTeacher() {
+		return "teacher/add";
+	}
 
 	@RequestMapping("/teacher/details/{dni}")
 	public String getDetail(@PathVariable Long dni) {
@@ -47,4 +53,15 @@ public class TeachersController {
 		return "Ok";
 	}
 	
+	@RequestMapping(value = "/teacher/edit/{dni}")
+	public String getEdit(Model model, @PathVariable Long dni) {
+		model.addAttribute("teacher", teachersService.getTeacher(dni));
+		return "teacher/edit";
+	}
+
+	@RequestMapping(value = "/teacher/edit", method = RequestMethod.POST)
+	public String setEdit(Model model, @ModelAttribute Teacher teacher) {
+		teachersService.addTeacher(teacher);
+		return "redirect:/teacher/details/" + teacher.getDni();
+	}
 }
