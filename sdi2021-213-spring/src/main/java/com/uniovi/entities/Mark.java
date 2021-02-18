@@ -28,15 +28,15 @@ public class Mark {
 	/**
 	 * @return the email
 	 */
-	public String getEmail() {
+	public String getDescription() {
 		return description;
 	}
 
 	/**
 	 * @param email the email to set
 	 */
-	public void setEmail(String email) {
-		this.description = email;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	/**
@@ -53,10 +53,10 @@ public class Mark {
 		this.score = score;
 	}
 
-	public Mark(Long id, String email, Double score) {
+	public Mark(Long id, String description, Double score) {
 		super();
 		this.id = id;
-		this.description = email;
+		this.description = description;
 		this.score = score;
 	}
 
@@ -65,7 +65,7 @@ public class Mark {
 
 	@Override
 	public String toString() {
-		return "Mark [id=" + id + ", email=" + description + ", score=" + score + "]";
+		return "Mark [id=" + id + ", description=" + description + ", score=" + score + "]";
 	}
 
 }
