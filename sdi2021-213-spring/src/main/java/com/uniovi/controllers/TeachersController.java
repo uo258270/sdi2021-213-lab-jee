@@ -49,20 +49,15 @@ public class TeachersController {
 
 
 	@RequestMapping(value = "/teacher/edit/{dni}")
-	public String getEdit(Model model, @PathVariable Long dni, @ModelAttribute Teacher teacher) {
+	public String getEdit(Model model, @PathVariable Long dni) {
+		model.addAttribute("teacher", teachersService.getTeacher(dni));
+		return "teacher/edit";
+	}
+	
+	@RequestMapping(value = "/teacher/edit/{dni}", method = RequestMethod.POST)
+	public String setEdit(Model model, @PathVariable Long dni, @ModelAttribute Teacher teacher) {
 		teacher.setDni(dni);
 		teachersService.addTeacher(teacher);
 		return "redirect:/teacher/details/"+dni;
-	}
-	/*
-	 * @RequestMapping(value = "/teacher/edit/{dni}") public String getEdit(Model
-	 * model, @PathVariable Long dni) { model.addAttribute("teacher",
-	 * teachersService.getTeacher(dni)); return "teacher/edit"; }
-	 */
-
-	@RequestMapping(value = "/teacher/edit", method = RequestMethod.POST)
-	public String setEdit(Model model, @ModelAttribute Teacher teacher) {
-		teachersService.addTeacher(teacher);
-		return "redirect:/teacher/details/" + teacher.getDni();
 	}
 }
