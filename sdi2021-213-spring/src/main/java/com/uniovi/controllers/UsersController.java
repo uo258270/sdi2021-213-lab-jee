@@ -16,6 +16,7 @@ import com.uniovi.entities.Mark;
 import com.uniovi.entities.User;
 import com.uniovi.services.SecurityService;
 import com.uniovi.services.UsersService;
+import com.uniovi.validators.AddUserFormValidator;
 import com.uniovi.validators.SignUpFormValidator;
 
 @Controller
@@ -23,6 +24,9 @@ public class UsersController {
 	@Autowired
 	private UsersService usersService;
 
+	@Autowired
+	private AddUserFormValidator addUserFormValidator;
+	
 	@Autowired
 	private SecurityService securityService;
 	
@@ -44,9 +48,10 @@ public class UsersController {
 
 	@RequestMapping(value = "/user/add", method = RequestMethod.POST)
 	public String setUser(@Validated User user, BindingResult result) {
-		signUpFormValidator.validate(user, result); 
+		//signUpFormValidator.validate(user, result); 
+		addUserFormValidator.validate(user, result);
 		if (result.hasErrors()) {
-			return "/user/add";
+			return "user/add";
 		}
 		usersService.addUser(user);
 		return "redirect:/user/list";
@@ -71,17 +76,24 @@ public class UsersController {
 		return "user/edit";
 	}
 
+	/*
+	 * @RequestMapping(value = "/user/edit/{id}", method = RequestMethod.POST)
+	 * public String setEdit(Model model, @PathVariable Long id, @ModelAttribute
+	 * User user) { User originalUser = usersService.getUser(id);
+	 * originalUser.setDni(user.getDni()); originalUser.setName(user.getName());
+	 * originalUser.setLastName(user.getLastName()); //user.setId(id);
+	 * usersService.editUser(originalUser); return "redirect:/user/details/" +id; }
+	 */
+	
 	@RequestMapping(value = "/user/edit/{id}", method = RequestMethod.POST)
-	public String setEdit(Model model, @PathVariable Long id, @ModelAttribute User user) {
-		User originalUser = usersService.getUser(id);
-		originalUser.setDni(user.getDni());
-		originalUser.setName(user.getName());
-		originalUser.setLastName(user.getLastName());
-		//user.setId(id);
-		usersService.editUser(originalUser);
-		return "redirect:/user/details/" +id;
+	public String setEdit(@Validated User user, BindingResult result) {
+		User original = usersService.getUser(user.getId());
+		original.setName(user.getName());
+		original.setLastName(user.getLastName());
+		usersService.addUser(original);
+		return "redirect:/user/list";
 	}
-
+	
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signup(Model model) {
 		model.addAttribute("user", new User());
