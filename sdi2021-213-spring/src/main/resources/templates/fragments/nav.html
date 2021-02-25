@@ -13,23 +13,22 @@
 			<ul class="nav navbar-nav">
 				<li><a href="/">Home</a></li>
 				<li id="marks-menu" class="dropdown"><a class="dropdown-toggle"
-					data-toggle="dropdown" href="*"> Gestión de notas <span
+					data-toggle="dropdown" href="*" th:text="#{marksmenu.title}"> <span
 						class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
-						<li><a href="/mark/add">Agregar Nota</a></li>
-						<li><a href="/mark/list">Ver Notas</a></li>
+						<li><a href="/mark/add" th:text="#{marksmenu.add}"></a></li>
+						<li><a href="/mark/list" th:text="#{marksmenu.list}"></a></li>
 					</ul></li>
-				<li id="users-menu" class="dropdown"><a class="dropdown-toggle"
-					data-toggle="dropdown" href="*"> Gestión de usuarios <span
-						class="caret"></span>
-				</a>
+				<li id="users-menu" class="dropdown"><a
+					class="dropdown-toggle" data-toggle="dropdown" href="*"
+					th:text="#{usersmenu.title}"><span class="caret"></span> </a>
 					<ul class="dropdown-menu">
-						<li><a href="/user/add">Agregar Usuario</a></li>
-						<li><a href="/user/list">Ver Usuarios</a></li>
+						<li><a href="/user/add" th:text="#{usersmenu.add}"></a></li>
+						<li><a href="/user/list" th:text="#{usersmenu.list}"></a></li>
 					</ul></li>
-				<li><a href="/teacher/list">Ver Profesores</a></li>
-				<li><a href="/teacher/add">Agregar Profesor</a></li>
+				<li><a href="/teacher/list" th:text="#{teachersmenu.list}"></a></li>
+				<li><a href="/teacher/add" th:text="#{teachersmenu.add}"></a></li>
 
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
@@ -49,6 +48,11 @@
 								th:src="@{/img/if_spain_flag.png}"
 								style="border: 0; float: left; margin-right: 15px" /> <span
 								th:text="#{language.es}">Español</span>
+						</a></li>
+						<li><a id="btnItalian" value="IT"> <img
+								th:src="@{/img/if_italy_flag.png}"
+								style="border: 0; float: left; margin-right: 15px" /> <span
+								th:text="#{language.it}">Italiano</span>
 						</a></li>
 					</ul></li>
 
