@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.uniovi.entities.Mark;
 import com.uniovi.entities.User;
 import com.uniovi.services.SecurityService;
 import com.uniovi.services.UsersService;
@@ -34,14 +35,19 @@ public class UsersController {
 		return "user/list";
 	}
 
-	@RequestMapping(value = "/user/add")
+	@RequestMapping(value = "/user/add", method = RequestMethod.GET)
 	public String getUser(Model model) {
-		model.addAttribute("usersList", usersService.getUsers());
+		//model.addAttribute("usersList", usersService.getUsers());
+		model.addAttribute("user", new User());
 		return "user/add";
 	}
 
 	@RequestMapping(value = "/user/add", method = RequestMethod.POST)
-	public String setUser(@ModelAttribute User user) {
+	public String setUser(@Validated User user, BindingResult result) {
+		signUpFormValidator.validate(user, result); 
+		if (result.hasErrors()) {
+			return "/user/add";
+		}
 		usersService.addUser(user);
 		return "redirect:/user/list";
 	}
@@ -58,7 +64,7 @@ public class UsersController {
 		return "redirect:/user/list";
 	}
 
-	@RequestMapping(value = "/user/edit/{id}")
+	@RequestMapping(value = "/user/edit/{id}", method=RequestMethod.GET)
 	public String getEdit(Model model, @PathVariable Long id) {
 		User user = usersService.getUser(id);
 		model.addAttribute("user", user);
@@ -67,9 +73,13 @@ public class UsersController {
 
 	@RequestMapping(value = "/user/edit/{id}", method = RequestMethod.POST)
 	public String setEdit(Model model, @PathVariable Long id, @ModelAttribute User user) {
-		user.setId(id);
-		usersService.addUser(user);
-		return "redirect:/user/details/" + id;
+		User originalUser = usersService.getUser(id);
+		originalUser.setDni(user.getDni());
+		originalUser.setName(user.getName());
+		originalUser.setLastName(user.getLastName());
+		//user.setId(id);
+		usersService.editUser(originalUser);
+		return "redirect:/user/details/" +id;
 	}
 
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
@@ -101,5 +111,11 @@ public class UsersController {
 		 User activeUser = usersService.getUserByDni(dni);
 		 model.addAttribute("markList", activeUser.getMarks());
 		 return "home";
+	}
+	
+	@RequestMapping("/user/list/update")
+	public String updateList(Model model){
+	model.addAttribute("usersList", usersService.getUsers() );
+	return "user/list :: tableUsers";
 	}
 }
