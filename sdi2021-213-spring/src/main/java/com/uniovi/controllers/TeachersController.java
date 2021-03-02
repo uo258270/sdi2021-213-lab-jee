@@ -5,13 +5,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.uniovi.entities.Teacher;
+import com.uniovi.services.DepartmentsService;
 import com.uniovi.services.TeachersService;
 import com.uniovi.validators.AddTeacherFormValidator;
 
@@ -24,6 +23,9 @@ public class TeachersController {
 	
 	@Autowired //Inyectar el servicio
 	private TeachersService teachersService;
+	
+	@Autowired
+	private DepartmentsService departmentsService;
 
 	@RequestMapping("/teacher/list")
 	public String getList(Model model) {
@@ -44,6 +46,7 @@ public class TeachersController {
 	@RequestMapping(value = "/teacher/add")
 	public String getTeacher(Model model) {
 		model.addAttribute("teacher", new Teacher());
+		model.addAttribute("departmentsList", departmentsService.getDepartments());
 		return "teacher/add";
 	}
 

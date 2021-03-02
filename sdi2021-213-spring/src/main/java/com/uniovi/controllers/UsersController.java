@@ -26,12 +26,12 @@ public class UsersController {
 
 	@Autowired
 	private AddUserFormValidator addUserFormValidator;
-	
+
 	@Autowired
 	private SecurityService securityService;
-	
+
 	@Autowired
-	 private SignUpFormValidator signUpFormValidator;
+	private SignUpFormValidator signUpFormValidator;
 
 	@RequestMapping("/user/list")
 	public String getListado(Model model) {
@@ -41,14 +41,13 @@ public class UsersController {
 
 	@RequestMapping(value = "/user/add", method = RequestMethod.GET)
 	public String getUser(Model model) {
-		//model.addAttribute("usersList", usersService.getUsers());
+		// model.addAttribute("usersList", usersService.getUsers());
 		model.addAttribute("user", new User());
 		return "user/add";
 	}
 
 	@RequestMapping(value = "/user/add", method = RequestMethod.POST)
 	public String setUser(@Validated User user, BindingResult result) {
-		//signUpFormValidator.validate(user, result); 
 		addUserFormValidator.validate(user, result);
 		if (result.hasErrors()) {
 			return "user/add";
@@ -69,7 +68,7 @@ public class UsersController {
 		return "redirect:/user/list";
 	}
 
-	@RequestMapping(value = "/user/edit/{id}", method=RequestMethod.GET)
+	@RequestMapping(value = "/user/edit/{id}", method = RequestMethod.GET)
 	public String getEdit(Model model, @PathVariable Long id) {
 		User user = usersService.getUser(id);
 		model.addAttribute("user", user);
@@ -84,26 +83,30 @@ public class UsersController {
 	 * originalUser.setLastName(user.getLastName()); //user.setId(id);
 	 * usersService.editUser(originalUser); return "redirect:/user/details/" +id; }
 	 */
-	
+
 	@RequestMapping(value = "/user/edit/{id}", method = RequestMethod.POST)
 	public String setEdit(@Validated User user, BindingResult result) {
 		User original = usersService.getUser(user.getId());
 		original.setName(user.getName());
 		original.setLastName(user.getLastName());
+		addUserFormValidator.validate(original, result);
+		if (result.hasErrors()) {
+			return "user/add";
+		}
 		usersService.addUser(original);
 		return "redirect:/user/list";
 	}
-	
+
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signup(Model model) {
 		model.addAttribute("user", new User());
-		 return "signup";
-		}
+		return "signup";
+	}
 
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public String signup(@Validated User user, BindingResult result) {
 		signUpFormValidator.validate(user, result);
-		if(result.hasErrors()) {
+		if (result.hasErrors()) {
 			return "signup";
 		}
 		usersService.addUser(user);
@@ -119,15 +122,15 @@ public class UsersController {
 	@RequestMapping(value = { "/home" }, method = RequestMethod.GET)
 	public String home(Model model) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		 String dni = auth.getName();
-		 User activeUser = usersService.getUserByDni(dni);
-		 model.addAttribute("markList", activeUser.getMarks());
-		 return "home";
+		String dni = auth.getName();
+		User activeUser = usersService.getUserByDni(dni);
+		model.addAttribute("markList", activeUser.getMarks());
+		return "home";
 	}
-	
+
 	@RequestMapping("/user/list/update")
-	public String updateList(Model model){
-	model.addAttribute("usersList", usersService.getUsers() );
-	return "user/list :: tableUsers";
+	public String updateList(Model model) {
+		model.addAttribute("usersList", usersService.getUsers());
+		return "user/list :: tableUsers";
 	}
 }
