@@ -1,31 +1,36 @@
 package com.uniovi.controllers;
 
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import java.util.HashSet;
+import java.util.Set;
 
-import com.uniovi.entities.Mark;
-import com.uniovi.services.MarksService;
-import com.uniovi.services.UsersService;
-import com.uniovi.validators.AddMarkFormValidator;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.uniovi.entities.Mark;
+import com.uniovi.services.MarksService;
+import com.uniovi.services.UsersService;
+import com.uniovi.validators.AddMarkFormValidator;
 
 @Controller
 public class MarksControllers {
+
+	@Autowired
+	private HttpSession httpSession;
 
 	@Autowired // inyectar el servicio
 	private MarksService marksService;
 
 	@Autowired
 	private UsersService usersService;
-	
+
 	@Autowired
 	private AddMarkFormValidator addMarkFormValidator;
 
@@ -44,7 +49,7 @@ public class MarksControllers {
 	@RequestMapping(value = "/mark/add", method = RequestMethod.POST)
 	public String setMark(@Validated Mark mark, BindingResult result) {
 		addMarkFormValidator.validate(mark, result);
-		if(result.hasErrors()) {
+		if (result.hasErrors()) {
 			return "mark/add";
 		}
 		marksService.addMark(mark);
@@ -73,7 +78,7 @@ public class MarksControllers {
 	@RequestMapping(value = "/mark/edit/{id}", method = RequestMethod.POST)
 	public String setEdit(@Validated Mark mark, BindingResult result) {
 		addMarkFormValidator.validate(mark, result);
-		if(result.hasErrors()) {
+		if (result.hasErrors()) {
 			return "mark/edit";
 		}
 		marksService.addMark(mark);
