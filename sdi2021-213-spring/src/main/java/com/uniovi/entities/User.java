@@ -14,6 +14,9 @@ public class User {
 	private String name;
 	private String lastName;
 	
+	private String role;
+
+	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private Set<Mark> marks;
 
@@ -89,5 +92,13 @@ public class User {
 
 	public String getFullName() {
 		return this.name + " " + this.lastName;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 }

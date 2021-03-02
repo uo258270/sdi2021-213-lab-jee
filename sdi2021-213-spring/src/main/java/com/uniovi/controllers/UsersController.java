@@ -7,13 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.uniovi.entities.Mark;
 import com.uniovi.entities.User;
+import com.uniovi.services.RolesService;
 import com.uniovi.services.SecurityService;
 import com.uniovi.services.UsersService;
 import com.uniovi.validators.AddUserFormValidator;
@@ -32,6 +31,10 @@ public class UsersController {
 
 	@Autowired
 	private SignUpFormValidator signUpFormValidator;
+	
+	@Autowired
+	private RolesService rolesService;
+
 
 	@RequestMapping("/user/list")
 	public String getListado(Model model) {
@@ -41,8 +44,7 @@ public class UsersController {
 
 	@RequestMapping(value = "/user/add", method = RequestMethod.GET)
 	public String getUser(Model model) {
-		// model.addAttribute("usersList", usersService.getUsers());
-		model.addAttribute("user", new User());
+		model.addAttribute("rolesList", rolesService.getRoles());
 		return "user/add";
 	}
 
@@ -75,15 +77,6 @@ public class UsersController {
 		return "user/edit";
 	}
 
-	/*
-	 * @RequestMapping(value = "/user/edit/{id}", method = RequestMethod.POST)
-	 * public String setEdit(Model model, @PathVariable Long id, @ModelAttribute
-	 * User user) { User originalUser = usersService.getUser(id);
-	 * originalUser.setDni(user.getDni()); originalUser.setName(user.getName());
-	 * originalUser.setLastName(user.getLastName()); //user.setId(id);
-	 * usersService.editUser(originalUser); return "redirect:/user/details/" +id; }
-	 */
-
 	@RequestMapping(value = "/user/edit/{id}", method = RequestMethod.POST)
 	public String setEdit(@Validated User user, BindingResult result) {
 		User original = usersService.getUser(user.getId());
@@ -109,6 +102,7 @@ public class UsersController {
 		if (result.hasErrors()) {
 			return "signup";
 		}
+		user.setRole(rolesService.getRoles()[0]);
 		usersService.addUser(user);
 		securityService.autoLogin(user.getDni(), user.getPasswordConfirm());
 		return "redirect:home";
