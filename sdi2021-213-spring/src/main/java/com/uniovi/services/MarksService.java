@@ -8,7 +8,13 @@ import java.util.Set;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.uniovi.entities.Mark;
 import com.uniovi.repositories.MarksRepository;
@@ -21,6 +27,9 @@ public class MarksService {
 
 	@Autowired
 	private MarksRepository marksRepository;
+
+	@Autowired
+	private MarksService marksService;
 
 	public List<Mark> getMarks() {
 		List<Mark> marks = new ArrayList<Mark>();
@@ -46,5 +55,27 @@ public class MarksService {
 
 	public void deleteMark(Long id) {
 		marksRepository.deleteById(id);
+	}
+
+	public void setMarkResend(boolean revised, Long id) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String dni = auth.getName();
+		Mark mark = marksRepository.findById(id).get();
+		if (mark.getUser().getDni().equals(dni)) {
+			marksRepository.updateResend(revised, id);
+		}
+
+	}
+
+	@RequestMapping(value = "/mark/{id}/resend", method = RequestMethod.GET)
+	public String setResendTrue(Model model, @PathVariable Long id) {
+		marksService.setMarkResend(true, id);
+		return "redirect:/mark/list";
+	}
+
+	@RequestMapping(value = "/mark/{id}/noresend", method = RequestMethod.GET)
+	public String setResendFalse(Model model, @PathVariable Long id) {
+		marksService.setMarkResend(false, id);
+		return "redirect:/mark/list";
 	}
 }
