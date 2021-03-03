@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.uniovi.entities.Mark;
+import com.uniovi.entities.User;
 import com.uniovi.repositories.MarksRepository;
 
 @Service
@@ -78,4 +79,17 @@ public class MarksService {
 		marksService.setMarkResend(false, id);
 		return "redirect:/mark/list";
 	}
+
+	public List<Mark> getMarksForUser(User user) {
+		List<Mark> marks = new ArrayList<Mark>();
+		if (user.getRole().equals("ROLE_STUDENT")) {
+			marks = marksRepository.findAllByUser(user);
+		}
+		if (user.getRole().equals("ROLE_PROFESSOR")) {
+			marks = getMarks();
+		}
+		return marks;
+	}
+	
+
 }

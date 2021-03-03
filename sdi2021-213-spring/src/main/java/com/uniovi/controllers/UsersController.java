@@ -92,7 +92,7 @@ public class UsersController {
 
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signup(Model model) {
-		model.addAttribute("user", new User());
+		model.addAttribute("rolesList", rolesService.getRoles());
 		return "signup";
 	}
 
