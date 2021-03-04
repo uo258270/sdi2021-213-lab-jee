@@ -1,0 +1,66 @@
+<table class="table table-hover" id="tableMarks">
+	<thead>
+		<tr>
+			<th class="col-md-1">Id</th>
+			<th th:text="#{mark.description}"></th>
+			<th th:text="#{mark.score}"></th>
+			<th class="col-md-1"></th>
+			<th class="col-md-1"></th>
+			<th class="col-md-1"></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr th:each="mark : ${marksList}">
+			<td th:text="${mark.id}"></td>
+			<td th:text="${mark.description}"></td>
+			<td th:text="${mark.score}"></td>
+			<td><a th:href="${'/mark/details/' + mark.id}"
+				th:text="#{mark.details}"></a></td>
+
+			<td><a sec:authorize="hasRole('ROLE_PROFESSOR')"
+				th:href="${'/mark/edit/' + mark.id}" th:text="#{modify.message}"></a>
+				<div sec:authorize="hasRole('ROLE_STUDENT')">
+					<div th:if="${mark.resend}">
+						<button type="button" th:id="${'resendButton' + mark.id}"
+							class="btn btn-info">Reenviar</button>
+						<script th:inline="javascript">
+								 /*<![CDATA[*/
+								 $( "#resendButton[[${mark.id}]]" ).click(function() {
+								 $.get( "/mark/list/[[${mark.id}]]/noresend", function( data ) {
+								 var numberPage = [[${param.page}]];
+								 var urlUpdate = '/mark/list/update';
+								 if ( numberPage != null ){
+								 urlUpdate += "?page="+numberPage[0];
+								 }
+								$("#tableMarks").load(urlUpdate);
+								 });
+								 });
+								 /*]]>*/
+								 </script>
+					</div>
+					<div th:unless="${mark.resend}">
+
+						<button type="button" th:id="${'noresendButton' + mark.id}"
+							class="btn btn-default">No reenviar</button>
+						<script th:inline="javascript">
+									 /*<![CDATA[*/
+									 $( "#noresendButton[[${mark.id}]]" ).click(function() {
+									 $.get( "/mark/list/[[${mark.id}]]/resend", function( data ) {
+									 var numberPage = [[${param.page}]];
+									 var urlUpdate = '/mark/list/update';
+									 if ( numberPage != null ){
+									 urlUpdate += "?page="+numberPage[0];
+									 }
+									$("#tableMarks").load(urlUpdate);
+									 });
+									 });
+									 /*]]>*/
+									 </script>
+
+					</div>
+				</div></td>
+			<td><a sec:authorize="hasRole('ROLE_PROFESSOR')"
+				th:href="${'/mark/delete/' + mark.id}" th:text="#{delete.message}"></a></td>
+		</tr>
+	</tbody>
+</table> 
