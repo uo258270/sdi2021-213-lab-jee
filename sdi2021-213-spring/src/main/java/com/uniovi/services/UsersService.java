@@ -1,6 +1,7 @@
 package com.uniovi.services;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -49,5 +50,14 @@ public class UsersService {
 
 	public void deleteUser(Long id) {
 		usersRepository.deleteById(id);
+	}
+	
+	
+
+	public List<User> searchUsersByNameOrLastname(String searchText) {
+		List<User> users = new LinkedList<User>();
+		searchText = "%"+searchText+"%";
+		users = usersRepository.searchUsersByNameOrLastname(searchText);
+		return users;
 	}
 }
