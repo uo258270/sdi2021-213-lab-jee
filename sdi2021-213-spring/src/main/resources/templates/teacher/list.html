@@ -24,14 +24,17 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="teacher : ${teacherList}">
+					<tr th:each="teacher : ${teachersList}">
 						<td th:text="${teacher.dni}">1</td>
 						<td th:text="${teacher.nombre}">Nombre1</td>
 						<td th:text="${teacher.apellidos}">Apellidos1</td>
 						<td th:text="${teacher.categoria}">Categoria1</td>
-						<td><a th:href="${'/teacher/details/' + teacher.dni}">detalles</a></td>
-						<td><a th:href="${'/teacher/edit/' + teacher.dni}">modificar</a></td>
-						<td><a th:href="${'/teacher/delete/' + teacher.dni}">eliminar</a></td>
+						<td><a th:href="${'/teacher/details/' + teacher.dni}"
+							sec:authorize="hasAnyRole('ROLE_TEACHER','ROLE_ADMIN')">detalles</a></td>
+						<td><a th:href="${'/teacher/edit/' + teacher.dni}"
+							sec:authorize="hasRole('ROLE_ADMIN')">modificar</a></td>
+						<td><a th:href="${'/teacher/delete/' + teacher.dni}"
+							sec:authorize="hasRole('ROLE_ADMIN')">eliminar</a></td>
 					</tr>
 				</tbody>
 			</table>

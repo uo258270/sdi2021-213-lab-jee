@@ -29,7 +29,7 @@ public class TeachersController {
 
 	@RequestMapping("/teacher/list")
 	public String getList(Model model) {
-		model.addAttribute("teacherList", teachersService.getTeachers());
+		model.addAttribute("teachersList", teachersService.getTeachers());
 		return "teacher/list";
 	}
 
