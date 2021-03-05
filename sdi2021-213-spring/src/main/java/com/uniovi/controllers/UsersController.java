@@ -1,8 +1,12 @@
 package com.uniovi.controllers;
 
 import java.security.Principal;
+import java.util.LinkedList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -14,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.uniovi.entities.Mark;
 import com.uniovi.entities.User;
+import com.uniovi.services.MarksService;
 import com.uniovi.services.RolesService;
 import com.uniovi.services.SecurityService;
 import com.uniovi.services.UsersService;
@@ -34,19 +40,25 @@ public class UsersController {
 
 	@Autowired
 	private SignUpFormValidator signUpFormValidator;
-	
+
 	@Autowired
 	private RolesService rolesService;
-
+	
+	@Autowired
+	private MarksService marksService;
 
 	@RequestMapping("/user/list")
-	public String getListado(Model model, Principal principal, @RequestParam(value = "", required=false) String searchText) {
-		if(searchText != null && !searchText.isEmpty()) {
-			model.addAttribute("usersList", usersService.searchUsersByNameOrLastname(searchText));
+	public String getList(Model model, Pageable pageable, Principal principal,
+			@RequestParam(value = "", required = false) String searchText) {
+
+		Page<User> users = new PageImpl<User>(new LinkedList<User>());
+		if (searchText != null && !searchText.isEmpty()) {
+			users = usersService.searchUsersByNameOrLastname(pageable, searchText);
+		} else {
+			users = usersService.getUsers(pageable);
 		}
-		else {
-			model.addAttribute("usersList", usersService.getUsers());
-		}
+		model.addAttribute("usersList", users);
+		model.addAttribute("page", users);
 		return "user/list";
 	}
 
@@ -122,17 +134,26 @@ public class UsersController {
 	}
 
 	@RequestMapping(value = { "/home" }, method = RequestMethod.GET)
-	public String home(Model model) {
+	public String home(Model model, Pageable pageable) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String dni = auth.getName();
 		User activeUser = usersService.getUserByDni(dni);
-		model.addAttribute("markList", activeUser.getMarks());
+		Page<Mark> marks = new PageImpl<Mark>(new LinkedList<Mark>());
+		if (activeUser.getRole().equals("ROLE_STUDENT")) {
+			
+			
+			marks = marksService.getMarksForUser(pageable, activeUser);
+			model.addAttribute("markList", marks);
+		} else {
+			return "redirect:mark/list";
+		}
 		return "home";
 	}
 
 	@RequestMapping("/user/list/update")
-	public String updateList(Model model) {
-		model.addAttribute("usersList", usersService.getUsers());
+	public String updateList(Model model, Pageable pageable) {
+		Page<User> users = usersService.getUsers(pageable);
+		model.addAttribute("usersList", users.getContent());
 		return "user/list :: tableUsers";
 	}
 }

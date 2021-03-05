@@ -88,9 +88,9 @@ public class MarksControllers {
 	}
 
 	@RequestMapping(value = "/mark/edit/{id}", method = RequestMethod.GET)
-	public String getEdit(Model model, @PathVariable Long id) {
+	public String getEdit(Model model, @PathVariable Long id, Pageable pageable) {
 		model.addAttribute("mark", marksService.getMark(id));
-		model.addAttribute("usersList", usersService.getUsers());
+		model.addAttribute("usersList", usersService.getUsers(pageable));
 		return "mark/edit";
 	}
 
