@@ -1,11 +1,16 @@
 package com.uniovi.services;
 
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.uniovi.entities.Department;
 import com.uniovi.entities.Mark;
+import com.uniovi.entities.Teacher;
 import com.uniovi.entities.User;
 
 @Service
@@ -14,6 +19,9 @@ public class InsertSampleDataService {
 	private UsersService usersService;
 	@Autowired
 	private RolesService rolesService;
+	
+	@Autowired
+	private TeachersService teachersService;
 
 	@PostConstruct
 	public void init() {
@@ -36,6 +44,12 @@ public class InsertSampleDataService {
 		user6.setPassword("123456");
 		user6.setRole(rolesService.getRoles()[2]);
 
+		Teacher teacher1 = new Teacher(1L, "Pepe", "Garcia", "Matemáticas");
+		Teacher teacher2 = new Teacher(2L, "Lola", "Suarez", "Informatica");
+		
+		
+		
+		
 		Set user1Marks = new HashSet<Mark>() {
 			{
 				add(new Mark("Nota A1", 10.0, user1));
@@ -77,5 +91,8 @@ public class InsertSampleDataService {
 		usersService.addUser(user4);
 		usersService.addUser(user5);
 		usersService.addUser(user6);
+		
+		teachersService.addTeacher(teacher1);
+		teachersService.addTeacher(teacher2);
 	}
 }
