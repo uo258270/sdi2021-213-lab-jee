@@ -50,26 +50,25 @@ public class TeachersController {
 		return "teacher/add";
 	}
 
-	@RequestMapping("/teacher/details/{dni}")
-	public String getDetail(Model model, @PathVariable Long dni) {
-		model.addAttribute("teacher", teachersService.getTeacher(dni));
+	@RequestMapping("/teacher/details/{id}")
+	public String getDetail(Model model, @PathVariable Long id) {
+		model.addAttribute("teacher", teachersService.getTeacher(id));
 		return "teacher/details";
 	}
 
-	@RequestMapping("/teacher/delete/{dni}")
-	public String deleteTeacher(@PathVariable Long dni) {
-		teachersService.deleteTeacher(dni);
+	@RequestMapping("/teacher/delete/{id}")
+	public String deleteTeacher(@PathVariable Long id) {
+		teachersService.deleteTeacher(id);
 		return "redirect:/teacher/list";
 	}
 
-
-	@RequestMapping(value = "/teacher/edit/{dni}")
-	public String getEdit(Model model, @PathVariable Long dni) {
-		model.addAttribute("teacher", teachersService.getTeacher(dni));
+	@RequestMapping(value = "/teacher/edit/{id}")
+	public String getEdit(Model model, @PathVariable Long id){
+		model.addAttribute("teacher", teachersService.getTeacher(id));
 		return "teacher/edit";
 	}
 	
-	@RequestMapping(value = "/teacher/edit/{dni}", method = RequestMethod.POST)
+	@RequestMapping(value = "/teacher/edit/{id}", method = RequestMethod.POST)
 	public String setEdit(@Validated Teacher teacher, BindingResult result) {
 		addTeacherFormValidator.validate(teacher, result);
 		if(result.hasErrors()) {

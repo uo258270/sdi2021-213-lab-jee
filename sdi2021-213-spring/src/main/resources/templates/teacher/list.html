@@ -15,6 +15,7 @@
 				<thead>
 					<tr>
 						<th class="col-md-1">id</th>
+						<th>DNI</th>
 						<th>Nombre</th>
 						<th>Apellidos</th>
 						<th>Categoria</th>
@@ -25,6 +26,7 @@
 				</thead>
 				<tbody>
 					<tr th:each="teacher : ${teachersList}">
+						<td th:text="${teacher.dni}">1</td>
 						<td th:text="${teacher.dni}">1</td>
 						<td th:text="${teacher.nombre}">Nombre1</td>
 						<td th:text="${teacher.apellidos}">Apellidos1</td>

@@ -11,7 +11,8 @@ public class Teacher {
 
 	@Id
 	@GeneratedValue
-	private Long dni;
+	private Long id;
+	private String dni;
 	private String nombre;
 	private String apellidos;
 	private String categoria;
@@ -26,7 +27,15 @@ public class Teacher {
 		
 	}
 	
-	public Teacher(Long dni, String nombre, String apellidos, String categoria) {
+	public Teacher(Long id, String nombre, String apellidos, String categoria) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.categoria = categoria;
+	}
+	
+	public Teacher(String dni, String nombre, String apellidos, String categoria) {
 		super();
 		this.dni = dni;
 		this.nombre = nombre;
@@ -45,15 +54,29 @@ public class Teacher {
 	/**
 	 * @return the dni
 	 */
-	public Long getDni() {
+	public String getDni() {
 		return dni;
 	}
 	/**
 	 * @param dni the dni to set
 	 */
-	public void setDni(Long dni) {
+	public void setDni(String dni) {
 		this.dni = dni;
 	}
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	/**
 	 * @return the nombre
 	 */

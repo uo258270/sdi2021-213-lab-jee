@@ -46,4 +46,7 @@ public class PO_PrivateView extends PO_NavView {
 		elementos.get(click).click();
 		
 	}
+	
+	
+	
 }

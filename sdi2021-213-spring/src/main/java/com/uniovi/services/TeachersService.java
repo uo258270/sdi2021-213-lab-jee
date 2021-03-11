@@ -36,4 +36,18 @@ public class TeachersService {
 		teachersRepository.deleteById(dni);
 	}
 
+	
+	public boolean getTeacherByDni(String dni) {
+		List<Teacher> teachers = new ArrayList<Teacher>();
+		teachersRepository.findAll().forEach(teachers::add);
+
+		for(Teacher teacher : teachers) {
+			System.out.println(teacher.getDni() + ":" + dni);
+			if(teacher.getDni().equals(dni)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }
