@@ -112,6 +112,7 @@ public class UsersController {
 
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signup(Model model) {
+		model.addAttribute("user", new User());
 		model.addAttribute("rolesList", rolesService.getRoles());
 		return "signup";
 	}
@@ -139,15 +140,15 @@ public class UsersController {
 		String dni = auth.getName();
 		User activeUser = usersService.getUserByDni(dni);
 		Page<Mark> marks = new PageImpl<Mark>(new LinkedList<Mark>());
-		if (activeUser.getRole().equals("ROLE_STUDENT")) {
-			
-			
-			marks = marksService.getMarksForUser(pageable, activeUser);
-			model.addAttribute("markList", marks);
-		} else {
-			return "redirect:mark/list";
-		}
+		
+		marks = marksService.getMarksForUser(pageable, activeUser);
+		
+		model.addAttribute("markList", marks.getContent());
+		model.addAttribute("page", marks);
+		
+		
 		return "home";
+		
 	}
 
 	@RequestMapping("/user/list/update")
