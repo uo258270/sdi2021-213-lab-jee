@@ -23,19 +23,18 @@ public class TeachersService {
 		return teachers;
 	}
 
-	public Teacher getTeacher(Long dni) {
-		return teachersRepository.findById(dni).get();
-		}
+	public Teacher getTeacher(Long id) {
+		return teachersRepository.findById(id).get();
+	}
 
 	public void addTeacher(Teacher teacher) {
 		teachersRepository.save(teacher);
 	}
 
 
-	public void deleteTeacher(Long dni) {
-		teachersRepository.deleteById(dni);
+	public void deleteTeacher(Long id) {
+		teachersRepository.deleteById(id);
 	}
-
 	
 	public boolean getTeacherByDni(String dni) {
 		List<Teacher> teachers = new ArrayList<Teacher>();

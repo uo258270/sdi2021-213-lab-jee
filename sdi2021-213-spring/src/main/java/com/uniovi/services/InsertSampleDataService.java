@@ -44,8 +44,8 @@ public class InsertSampleDataService {
 		user6.setPassword("123456");
 		user6.setRole(rolesService.getRoles()[2]);
 
-		Teacher teacher1 = new Teacher(1L, "Pepe", "Garcia", "Matemáticas");
-		Teacher teacher2 = new Teacher(2L, "Lola", "Suarez", "Informatica");
+		Teacher teacher1 = new Teacher("2635439381", "Pepe", "Garcia", "Matemáticas");
+		Teacher teacher2 = new Teacher("99999999L", "Lola", "Suarez", "Informatica");
 		
 		
 		

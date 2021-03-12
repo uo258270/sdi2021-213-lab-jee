@@ -26,16 +26,16 @@
 				</thead>
 				<tbody>
 					<tr th:each="teacher : ${teachersList}">
-						<td th:text="${teacher.dni}">1</td>
+						<td th:text="${teacher.id}">1</td>
 						<td th:text="${teacher.dni}">1</td>
 						<td th:text="${teacher.nombre}">Nombre1</td>
 						<td th:text="${teacher.apellidos}">Apellidos1</td>
 						<td th:text="${teacher.categoria}">Categoria1</td>
-						<td><a th:href="${'/teacher/details/' + teacher.dni}"
+						<td><a th:href="${'/teacher/details/' + teacher.id}"
 							sec:authorize="hasAnyRole('ROLE_TEACHER','ROLE_ADMIN')">detalles</a></td>
-						<td><a th:href="${'/teacher/edit/' + teacher.dni}"
+						<td><a th:href="${'/teacher/edit/' + teacher.id}"
 							sec:authorize="hasRole('ROLE_ADMIN')">modificar</a></td>
-						<td><a th:href="${'/teacher/delete/' + teacher.dni}"
+						<td><a th:href="${'/teacher/delete/' + teacher.id}"
 							sec:authorize="hasRole('ROLE_ADMIN')">eliminar</a></td>
 					</tr>
 				</tbody>

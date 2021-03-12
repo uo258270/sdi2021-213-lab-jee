@@ -11,7 +11,7 @@
 	<div class="container">
 		<h2>Editar Profesor</h2>
 		<form class="form-horizontal" method="post"
-			th:action="${'/teacher/edit/' + teacher.dni}" th:object="${teacher}">
+			th:action="${'/teacher/edit/' + teacher.id}" th:object="${teacher}">
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="description">Nombre:</label>
 				<div class="col-sm-10">

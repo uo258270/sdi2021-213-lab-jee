@@ -27,13 +27,6 @@ public class Teacher {
 		
 	}
 	
-	public Teacher(Long id, String nombre, String apellidos, String categoria) {
-		super();
-		this.id = id;
-		this.nombre = nombre;
-		this.apellidos = apellidos;
-		this.categoria = categoria;
-	}
 	
 	public Teacher(String dni, String nombre, String apellidos, String categoria) {
 		super();

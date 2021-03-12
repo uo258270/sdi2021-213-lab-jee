@@ -1,5 +1,6 @@
 package com.uniovi.tests;
 
+
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -11,17 +12,13 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.Select;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.uniovi.tests.pageobjects.PO_HomeView;
-import com.uniovi.tests.pageobjects.PO_LoginView;
-import com.uniovi.tests.pageobjects.PO_NavView;
+import com.uniovi.repositories.TeachersRepository;
 import com.uniovi.tests.pageobjects.PO_PrivateView;
-import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_RegisterView;
 import com.uniovi.tests.pageobjects.PO_View;
 import com.uniovi.tests.util.SeleniumUtils;
@@ -30,6 +27,10 @@ import com.uniovi.tests.util.SeleniumUtils;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 
 public class NotaneitorComplementariosTests {
+	
+	
+	@Autowired
+	private TeachersRepository teachersRepository;
 	// En Windows (Debe ser la versión 65.0.1 y desactivar las actualizacioens
 	// automáticas)):
 	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
@@ -78,50 +79,79 @@ public class NotaneitorComplementariosTests {
 		PO_PrivateView.checkElementAndClick(driver, "free", "//a[contains(@href, 'teacher/add')]", 0);
 		
 		//PO_LoginView.fillForm(driver, "99999988F", "123456");
-		PO_RegisterView.fillFormAddTeacher(driver, "12374569857", "Pepe", "garcia", "cat1");
+		PO_RegisterView.fillFormAddTeacher(driver, "99999999R", "Pepito", "garciaa", "categoria");
 		
-		PO_View.checkElement(driver, "text", "Pepe");
 		
-		PO_PrivateView.logout(driver,"Identifícate");
+		PO_View.checkElement(driver, "text", "Pepito");
+		
+		PO_PrivateView.logout(driver,"DNI");
 
 	}
 	
 	@Test
 	public void PR02() {
-		driver.navigate().to(URL+"/teacher/add");
-        PO_LoginView.fillForm(driver, "99999988F", "123456");
+		PO_PrivateView.login(driver, "99999988F", "123456", "Bienvenidos a la pagina principal");
+		PO_PrivateView.checkElementAndClick(driver, "free", "//li[contains(@id, 'teachers-menu')]/a", 0);
+		PO_PrivateView.checkElementAndClick(driver, "free", "//a[contains(@href, 'teacher/add')]", 0);
+		
+		
        
-        PO_RegisterView.fillFormAddTeacher(driver, "123456786666Z", "pEPITO", "gRILLO", "Aslepi");
-        PO_RegisterView.checkKey(driver, "Error.teacher.add.dni.length", PO_Properties.getSPANISH());
+        PO_RegisterView.fillFormAddTeacher(driver, "99999999999Z", "Profesor1", "Apellido1", "Informatica");
+        //PO_RegisterView.checkKey(driver, "Error.teacher.add.dni.length", PO_Properties.getSPANISH());
+        PO_View.checkElement(driver, "text", "El DNI debe tener 9 caracteres (8 dígitos y 1 letra).");
+        
+        PO_RegisterView.fillFormAddTeacher(driver, "99999", "Profesor2", "Apellido2", "Matematicas");
+        //PO_RegisterView.checkKey(driver, "Error.teacher.add.dni.length", PO_Properties.getSPANISH());
+        PO_View.checkElement(driver, "text", "El DNI debe tener 9 caracteres (8 dígitos y 1 letra).");
        
-        PO_RegisterView.fillFormAddTeacher(driver, "123", "pEPITO", "gRILLO", "Aslepi");
-        PO_RegisterView.checkKey(driver, "Error.teacher.add.dni.length", PO_Properties.getSPANISH());
+        
+        PO_RegisterView.fillFormAddTeacher(driver, "99999999R", "Pepito", "garciaa", "categoria");
+        //PO_RegisterView.checkKey(driver, "Error.teacher.add.dni.duplicate", PO_Properties.getSPANISH());
+        PO_View.checkElement(driver, "text", "Ese DNI ya existe.");
+        
        
-        PO_RegisterView.fillFormAddTeacher(driver, "12345678Z", "Pablo", "Lopez", "Aslopo");
-        PO_RegisterView.checkKey(driver, "Error.teacher.add.dni.duplicate", PO_Properties.getSPANISH());
-       
-       
-        PO_RegisterView.fillFormAddTeacher(driver, "123456786", "Paco", "Lopez", "Aslepia");
-        PO_RegisterView.checkKey(driver, "Error.teacher.add.dni.letter", PO_Properties.getSPANISH());
-	}
+        PO_PrivateView.logout(driver, "DNI");
+        
+       }
 	
 	@Test
 	public void PR03() {
-		PO_PrivateView.login(driver, "99999990A", "123456", "99999990A");
+		PO_PrivateView.login(driver, "99999990A", "123456", "Bienvenidos a la pagina principal");
 		PO_PrivateView.checkElementAndClick(driver, "free", "//li[contains(@id, 'teachers-menu')]/a", 0);
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Agregar Profesor", 2);
-		PO_PrivateView.logout(driver, "Identifícate");
+		PO_PrivateView.logout(driver, "DNI");
 		
-		PO_PrivateView.login(driver, "99999993D", "123456", "99999993D");
+		PO_PrivateView.login(driver, "99999993D", "123456", "Bienvenidos a la pagina principal");
 		PO_PrivateView.checkElementAndClick(driver, "free", "//li[contains(@id, 'teachers-menu')]/a", 0);
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Agregar Profesor", 2);
-		PO_PrivateView.logout(driver, "Identifícate");
+		PO_PrivateView.logout(driver, "DNI");
 		
-		PO_PrivateView.login(driver, "99999988F", "123456", "99999988F");
+		PO_PrivateView.login(driver, "99999988F", "123456", "Bienvenidos a la pagina principal");
 		PO_PrivateView.checkElementAndClick(driver, "free", "//li[contains(@id, 'teachers-menu')]/a", 0);
 		List<WebElement> elements = PO_View.checkElement(driver, "free", "//a[contains(@href, 'teacher/add')]");
 		assertTrue(!elements.isEmpty());
-		PO_PrivateView.logout(driver, "Identifícate");
+		PO_PrivateView.logout(driver, "DNI");
 		
 	}
+	
+	@Test
+	public void PR04() {
+		PO_PrivateView.login(driver, "99999988F", "123456", "Bienvenidos a la pagina principal");
+		driver.navigate().to(URL+ "/teacher/list");
+		PO_View.checkElement(driver, "text", "Profesores");
+		
+		//lista de la primera pagina
+		List<WebElement> elements = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		assertTrue(elements.size() == 3);
+		
+		
+		 List<WebElement> paginas = PO_View.checkElement(driver, "free",
+		 "//a[contains(@class, 'page-link')]"); paginas.get(2).click(); //ultima pagina
+		  
+		 elements = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr",
+		 PO_View.getTimeout()); assertTrue(elements.size() == 1);
+		 
+	}
+	
+	
 } 
